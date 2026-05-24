@@ -68,3 +68,17 @@ doubao-skill/
 - Reference docs in `references/` are supplementary detail (full parameter tables, size matrices, event types) — sub-skill SKILL.mds already contain the essential parameters
 - When updating model IDs or defaults, sync across: parent SKILL.md config table, `.env.example`, and the relevant sub-skill SKILL.md
 - API doc sources: https://www.volcengine.com/docs/82379 (Chat: 1494384, Image: 1541523, Video: 1520757)
+
+## Agent skills
+
+### Issue tracker
+
+GitHub issues at https://github.com/Trainerchan/doubao-skill. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Uses the canonical default labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: `CONTEXT.md` at repo root, `docs/adr/` for architectural decisions. See `docs/agents/domain.md`.
