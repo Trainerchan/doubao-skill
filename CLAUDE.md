@@ -1,0 +1,70 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
+
+This is a Claude Code skill that wraps the Volcengine Ark (火山方舟) Doubao model APIs. It provides three sub-skills for different model categories. The entry point is `SKILL.md`; each sub-skill lives in its own directory with its own `SKILL.md`.
+
+```
+doubao-skill/
+├── SKILL.md               ← Entry point: config, sub-skill routing, quick tests
+├── .env.example           ← Env var template (ARK_API_KEY + model overrides)
+├── general/SKILL.md       ← Chat, vision, document/video/audio understanding, function calling
+├── generate-image/SKILL.md ← Seedream image generation (text-to-image, image-to-image, group images)
+├── generate-video/SKILL.md ← Seedance video generation (async: create task → poll → download)
+└── references/            ← Detailed API parameter tables (chat, image, video)
+```
+
+## Environment & Configuration
+
+- **Required**: `ARK_API_KEY` — Volcengine Ark API key (set via env var or `.env` file)
+- **Optional overrides**: `DOUBAO_CHAT_MODEL`, `DOUBAO_IMAGE_MODEL`, `DOUBAO_VIDEO_MODEL`
+- **Default models**:
+  - Chat: `doubao-seed-2-0-lite-260428`
+  - Image: `doubao-seedream-5-0-260128`
+  - Video: `doubao-seedance-2-0-260128`
+
+## API Conventions (all sub-skills)
+
+- **Base URL**: `https://ark.cn-beijing.volces.com/api/v3`
+- **Auth header**: `Authorization: Bearer $ARK_API_KEY`
+- **Content-Type**: `application/json`
+- **SDK**: `pip install volcengine-python-sdk` — provides `volcenginesdkarkruntime.Ark` client
+- The Chat API is OpenAI-compatible, so `openai.OpenAI(base_url=...)` also works
+
+## Sub-skill Architecture
+
+### general — Chat & Multimodal
+
+- **Endpoint**: `POST /v3/chat/completions` (also `/v3/responses` for new API)
+- **Capabilities**: text chat, image understanding (URL or base64), document understanding (PDF/DOCX/XLSX/PPTX), video understanding, audio transcription, deep thinking mode, function calling, streaming
+- **Models**: `doubao-seed-2-0-lite/pro/mini` series (256K context)
+- **Not supported**: `frequency_penalty`, `presence_penalty`
+
+### generate-image — Seedream
+
+- **Endpoint**: `POST /v3/images/generations`
+- **SDK client**: `client.images.generate(...)`
+- **Capabilities**: text-to-image, image-to-image (single ref), multi-image fusion (up to 14 refs), group/sequential images (up to 15), web-search-assisted generation, streaming output
+- **Resolutions**: 2K/3K/4K presets or custom pixels
+- **Output**: URL (24h expiry) or base64 JSON
+- **Rate limit**: 500 images/minute
+
+### generate-video — Seedance
+
+- **Endpoint**: `POST /v3/contents/generations/tasks` (create), `GET .../tasks/{id}` (poll), `DELETE .../tasks/{id}` (cancel)
+- **SDK client**: `client.content_generation.tasks.create(...)` / `.get(id)`
+- **Workflow**: async only — create task → poll every ~10s for status → download MP4 on `succeeded`
+- **Task states**: `queued` → `running` → `succeeded` / `failed` / `cancelled`
+- **Capabilities**: text-to-video, image-to-video (first frame or first+last frame), multimodal reference (image+video+audio, Seedance 2.0 only), audio generation
+- **Prerequisite**: account balance ≥ 200 CNY or purchased resource pack
+- **Key constraints**: duration 2-15s, up to 9 images / 3 videos / 3 audio clips as reference, request body ≤ 64 MB
+
+## When Editing This Skill
+
+- Each sub-skill `SKILL.md` must be self-contained — an agent loading it should have everything needed to make API calls without loading the parent or reference docs
+- The parent `SKILL.md` provides navigation and shared config only; detailed usage belongs in sub-skills
+- Reference docs in `references/` are supplementary detail (full parameter tables, size matrices, event types) — sub-skill SKILL.mds already contain the essential parameters
+- When updating model IDs or defaults, sync across: parent SKILL.md config table, `.env.example`, and the relevant sub-skill SKILL.md
+- API doc sources: https://www.volcengine.com/docs/82379 (Chat: 1494384, Image: 1541523, Video: 1520757)
