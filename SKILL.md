@@ -2,41 +2,55 @@
 name: doubao-skill
 description: Use when calling Doubao (豆包) / Volcengine Ark models — chat, vision, document understanding, image generation (Seedream), or video generation (Seedance). Load this first; it routes to the appropriate sub-skill.
 version: 1.0.0
-author: Hermes Agent
+author: Trainerchan
 license: MIT
 metadata:
-  hermes:
-    tags: [doubao, volcengine, ark, seed, seedream, seedance, multimodal, image-generation, video-generation, bytedance]
-    related_skills: [doubao-general, doubao-generate-image, doubao-generate-video]
+  tags: [doubao, volcengine, ark, seed, seedream, seedance, multimodal, image-generation, video-generation, bytedance]
 ---
 
 # Doubao Skill (豆包技能集)
 
-火山方舟(Volcengine Ark)豆包大模型调用技能集。提供三个子技能，覆盖通用对话/多模态理解、图片生成、视频生成。
+火山方舟(Volcengine Ark)豆包大模型调用技能集。提供三个独立子技能，覆盖通用对话/多模态理解、图片生成、视频生成。
 
-## 架构
+## 安装
 
-### 源码（E:\doubao-skill\）
+复制以下文件到你的 skills 目录，**保持目录结构不变**：
 
 ```
 doubao-skill/
-├── SKILL.md               ← 本文件：配置说明 + 子技能导航
-├── .env.example           ← 环境变量模板
-├── general/SKILL.md       ← 通用对话/多模态
-├── generate-image/SKILL.md ← 图片生成 (Seedream)
-├── generate-video/SKILL.md ← 视频生成 (Seedance)
-└── references/            ← 详细 API 参数参考
-    ├── chat-api.md
-    ├── image-api.md
-    └── video-api.md
+├── SKILL.md
+├── .env.example
+├── general/SKILL.md
+├── generate-image/SKILL.md
+└── generate-video/SKILL.md
 ```
 
-### Hermes Agent 集成
+> 本仓库其余文件（`CLAUDE.md`、`task.md`、`docs/`）为项目开发档案，无需安装。
 
-三个子技能已注册为**独立 skill**，在 Hermes 中可直接加载：
+### 子 skill 独立加载
 
-| 方式 | 命令 |
-|------|------|
+三个子 skill 可独立注册和加载：
+
+| Skill 名称 | 能力 | 触发场景 |
+|-----------|------|----------|
+| `doubao-general` | 对话、多模态理解 | 聊天、图片/文档/视频/音频识别与分析 |
+| `doubao-generate-image` | 图片生成 | 文生图、图生图、组图、海报设计 |
+| `doubao-generate-video` | 视频生成 | 文生视频、图生视频、多模态参考生视频 |
+
+## Agent 集成
+
+### Claude Code
+
+Claude Code 根据 frontmatter 的 `description` 自动匹配。直接对话即可触发，例如：
+
+- "帮我用豆包生成一张图片"
+- "分析这份 PDF 文档的内容"
+- "生成一段视频"
+
+### Hermes Agent
+
+通过 `skill_view()` 显式加载：
+
 | 总入口 | `skill_view("doubao-skill")` |
 | 通用对话 | `skill_view("doubao-general")` |
 | 图片生成 | `skill_view("doubao-generate-image")` |
@@ -44,31 +58,48 @@ doubao-skill/
 
 Hermes 技能文件位于 `~/.hermes/skills/doubao-skill/`、`doubao-general/`、`doubao-generate-image/`、`doubao-generate-video/`。
 
-## 前置配置（所有子技能共用）
+## 前置配置
 
 ### 1. 获取 API Key
 
 1. 访问 [API Key 管理](https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey)
 2. 点击「创建 API Key」，输入名称后确认
-3. 复制生成的 Key（注意：仅显示一次！）
+3. 复制生成的 Key（仅显示一次）
 
-### 2. 配置环境变量
+### 2. 配置 API Key
 
-必须设置环境变量 `ARK_API_KEY`：
-
-```bash
-export ARK_API_KEY="your-api-key-here"
-```
-
-或在项目根目录的 `.env` 文件中：
+将 Key 写入项目根目录的 `.env` 文件（参考 `.env.example`）：
 
 ```
 ARK_API_KEY=your-api-key-here
 ```
 
-> ⚠️ **安全提醒**：严禁将 API Key 硬编码到代码中。必须通过环境变量或 `.env` 文件管理。API Key 泄露会导致配额被盗用，产生额外费用。
+> 严禁将 API Key 硬编码到代码中。必须通过环境变量或 `.env` 文件管理。
 
-### 3. 可选：按子技能配置不同模型
+如果用户尚未配置，引导用户完成以上步骤后再继续。
+
+### 3. 代码中加载 Key
+
+每个子 skill 在代码示例开头统一使用 `python-dotenv` 加载：
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+安装依赖：`pip install python-dotenv`
+
+### 4. 安装 SDK
+
+**仅需一个 SDK** 覆盖所有三个子技能：
+
+```bash
+pip install volcengine-python-sdk
+```
+
+所有子技能统一使用 `volcenginesdkarkruntime.Ark` 客户端。
+
+### 5. 可选：按子技能配置不同模型
 
 每个子技能可通过独立环境变量覆盖默认模型：
 
@@ -79,21 +110,17 @@ ARK_API_KEY=your-api-key-here
 | `DOUBAO_IMAGE_MODEL` | 图片生成模型 | `doubao-seedream-5-0-260128` |
 | `DOUBAO_VIDEO_MODEL` | 视频生成模型 | `doubao-seedance-2-0-260128` |
 
-### 4. 安装 SDK
-
-不同子技能依赖不同 SDK：
-
-| 子技能 | SDK | 安装命令 |
-|--------|-----|----------|
-| general（Chat API） | `openai` | `pip install openai` |
-| generate-image | `volcengine-python-sdk` | `pip install volcengine-python-sdk` |
-| generate-video | `volcengine-python-sdk` | `pip install volcengine-python-sdk` |
-
-> ARK Chat API 兼容 OpenAI 格式，直接用 `openai` SDK 更轻量。图片/视频生成需要用 `volcenginesdkarkruntime`。
-
 ## 子技能导航
 
-### 1. general — 通用对话 & 多模态
+父 skill 根据用户意图路由到对应子 skill。路由决策表：
+
+| 用户说了什么 | 加载哪个子 skill |
+|-------------|----------------|
+| 对话、聊天、分析图片、识别文档、提取 PDF/PPTX/XLSX、视频/音频理解、函数调用 | `doubao-general` |
+| 生成图片、画图、文生图、图生图、海报、组图、漫画分镜 | `doubao-generate-image` |
+| 生成视频、文生视频、图生视频、视频编辑 | `doubao-generate-video` |
+
+### 1. doubao-general — 通用对话 & 多模态
 
 **触发条件**：对话、文本生成、图片理解、视频理解、文档理解（PDF/PPTX/XLSX）、音频理解、函数调用
 
@@ -105,11 +132,13 @@ ARK_API_KEY=your-api-key-here
 - 文档理解（PDF、PPTX、XLSX 等）
 - 视频理解（抽帧分析）
 - 音频理解（mp3/wav 等）
+- 联网搜索、知识库检索
 - 函数调用 / 工具调用
+- 大文件上传（File API）
 
-→ 源码：[general/SKILL.md](general/SKILL.md)　|　Hermes：`skill_view("doubao-general")`
+→ 源码：[general/SKILL.md](general/SKILL.md)
 
-### 2. generate-image — 图片生成
+### 2. doubao-generate-image — 图片生成
 
 **触发条件**：生成图片、文生图、图生图、组图、海报设计
 
@@ -123,9 +152,9 @@ ARK_API_KEY=your-api-key-here
 - 2K/3K/4K 分辨率
 - 支持流式输出
 
-→ 源码：[generate-image/SKILL.md](generate-image/SKILL.md)　|　Hermes：`skill_view("doubao-generate-image")`
+→ 源码：[generate-image/SKILL.md](generate-image/SKILL.md)
 
-### 3. generate-video — 视频生成
+### 3. doubao-generate-video — 视频生成
 
 **触发条件**：生成视频、文生视频、图生视频、视频编辑
 
@@ -138,9 +167,9 @@ ARK_API_KEY=your-api-key-here
 - 音画同生
 - 异步任务模式（提交 → 轮询 → 下载）
 
-> ⚠️ 前置条件：账户余额 ≥ 200 元或已购买资源包
+> 前置条件：账户余额 ≥ 200 元或已购买资源包
 
-→ 源码：[generate-video/SKILL.md](generate-video/SKILL.md)　|　Hermes：`skill_view("doubao-generate-video")`
+→ 源码：[generate-video/SKILL.md](generate-video/SKILL.md)
 
 ## 公共约定
 
@@ -151,6 +180,41 @@ ARK_API_KEY=your-api-key-here
 5. **错误码参考**：https://www.volcengine.com/docs/82379/1299023
 6. **模型列表**：https://www.volcengine.com/docs/82379/1330310
 7. **价格参考**：https://www.volcengine.com/docs/82379/1544106
+
+### 自动重试
+
+遇到限流（429）或服务繁忙（503）时，使用指数退避重试，最多 3 次：
+
+```python
+import time
+
+def call_with_retry(fn, max_retries=3):
+    for i in range(max_retries):
+        try:
+            return fn()
+        except Exception as e:
+            err = str(e)
+            if "429" in err or "503" in err or "rate" in err.lower():
+                wait = 2 ** i  # 1s, 2s, 4s
+                print(f"服务繁忙，{wait}s 后重试 ({i+1}/{max_retries})...")
+                time.sleep(wait)
+            else:
+                raise
+    raise RuntimeError(f"重试 {max_retries} 次后仍失败")
+```
+
+### 文档验证（出错时触发）
+
+API 返回 `model not found`、`invalid parameter` 或 400/404 错误时：
+
+1. 优先使用文档查询工具（如 Context7 MCP），搜索豆包/火山方舟相关文档
+2. 若无文档查询工具，使用网页获取工具（如 WebFetch、web_fetch、browser 等）抓取对应文档页：
+   - Chat API 文档: https://www.volcengine.com/docs/82379/1494384?lang=zh
+   - 模型列表: https://www.volcengine.com/docs/82379/1330310?lang=zh
+   - 图片生成 API: https://www.volcengine.com/docs/82379/1541523?lang=zh
+   - 视频生成 API: https://www.volcengine.com/docs/82379/1520757?lang=zh
+
+修正参数后重试最多一次，不再递归重试。
 
 ## 快速测试
 

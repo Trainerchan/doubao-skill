@@ -12,8 +12,7 @@ doubao-skill/
 ├── .env.example           ← Env var template (ARK_API_KEY + model overrides)
 ├── general/SKILL.md       ← Chat, vision, document/video/audio understanding, function calling
 ├── generate-image/SKILL.md ← Seedream image generation (text-to-image, image-to-image, group images)
-├── generate-video/SKILL.md ← Seedance video generation (async: create task → poll → download)
-└── references/            ← Detailed API parameter tables (chat, image, video)
+└── generate-video/SKILL.md ← Seedance video generation (async: create task → poll → download)
 ```
 
 ## Environment & Configuration
@@ -30,8 +29,7 @@ doubao-skill/
 - **Base URL**: `https://ark.cn-beijing.volces.com/api/v3`
 - **Auth header**: `Authorization: Bearer $ARK_API_KEY`
 - **Content-Type**: `application/json`
-- **SDK**: `pip install volcengine-python-sdk` — provides `volcenginesdkarkruntime.Ark` client
-- The Chat API is OpenAI-compatible, so `openai.OpenAI(base_url=...)` also works
+- **SDK**: `pip install volcengine-python-sdk` — provides `volcenginesdkarkruntime.Ark` client for all three sub-skills
 
 ## Sub-skill Architecture
 
@@ -65,7 +63,7 @@ doubao-skill/
 
 - Each sub-skill `SKILL.md` must be self-contained — an agent loading it should have everything needed to make API calls without loading the parent or reference docs
 - The parent `SKILL.md` provides navigation and shared config only; detailed usage belongs in sub-skills
-- Reference docs in `references/` are supplementary detail (full parameter tables, size matrices, event types) — sub-skill SKILL.mds already contain the essential parameters
+- All parameter details, size matrices, and event types are included directly in the sub-skill SKILL.md files — no separate reference docs
 - When updating model IDs or defaults, sync across: parent SKILL.md config table, `.env.example`, and the relevant sub-skill SKILL.md
 - API doc sources: https://www.volcengine.com/docs/82379 (Chat: 1494384, Image: 1541523, Video: 1520757)
 
