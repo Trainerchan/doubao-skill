@@ -16,6 +16,12 @@
 
 [效果示例](#效果示例) · [安装](#安装) · [子技能概览](#子技能概览) · [工作原理](#工作原理)
 
+<br>
+
+**其他语言 / Other Languages:**
+
+[English](README.en.md) · [日本語](README.jp.md) · [한국어](README.ko.md) · [Русский](README.ru.md)
+
 </div>
 
 ---
