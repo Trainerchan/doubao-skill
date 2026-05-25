@@ -119,10 +119,19 @@ pip install volcengine-python-sdk python-dotenv
 ```
 doubao-skill/
 ├── SKILL.md                  ← 父技能：配置共享、子技能路由
+├── REFERENCE.md              ← 父技能参考：安装步骤、Agent集成、重试逻辑
 ├── .env.example              ← 环境变量模板
-├── general/SKILL.md          ← 子技能：通用对话 & 多模态
-├── generate-image/SKILL.md   ← 子技能：图片生成 (Seedream)
-└── generate-video/SKILL.md   ← 子技能：视频生成 (Seedance)
+├── general/
+│   ├── SKILL.md              ← 子技能：通用对话 & 多模态（核心用法）
+│   └── REFERENCE.md          ← 扩展场景、完整参数表、错误码
+├── generate-image/
+│   ├── SKILL.md              ← 子技能：图片生成 Seedream（核心用法）
+│   └── REFERENCE.md          ← 流式组图、完整参数表、尺寸矩阵
+└── generate-video/
+    ├── SKILL.md              ← 子技能：视频生成 Seedance（核心用法）
+    ├── REFERENCE.md          ← 扩展场景、完整参数表、分辨率对照
+    └── scripts/
+        └── poll_video.py     ← 可复用轮询下载脚本
 ```
 
 ---
@@ -170,19 +179,25 @@ Agent 加载豆包技能后，按三步完成调用：
 ```
 doubao-skill/
 ├── SKILL.md                      # 父技能：配置共享、子技能路由
+├── REFERENCE.md                  # 父技能参考：安装步骤、Agent集成、重试逻辑
 ├── .env.example                  # 环境变量模板
 ├── general/
-│   └── SKILL.md                  # 通用对话 & 多模态
+│   ├── SKILL.md                  # 通用对话 & 多模态（核心用法）
+│   └── REFERENCE.md              # 扩展场景、完整参数表、错误码
 ├── generate-image/
-│   └── SKILL.md                  # 图片生成 (Seedream)
+│   ├── SKILL.md                  # 图片生成 Seedream（核心用法）
+│   └── REFERENCE.md              # 流式组图、完整参数表、尺寸矩阵
 ├── generate-video/
-│   └── SKILL.md                  # 视频生成 (Seedance)
+│   ├── SKILL.md                  # 视频生成 Seedance（核心用法）
+│   ├── REFERENCE.md              # 扩展场景、完整参数表、分辨率对照
+│   └── scripts/
+│       └── poll_video.py         # 可复用轮询下载脚本
 ├── docs/
 │   └── agents/                   # Agent 配置（issue tracker、标签等）
 └── CLAUDE.md                     # 项目开发指引
 ```
 
-所有 API 参数细节、尺寸矩阵、模型能力对比直接写在对应的子技能 SKILL.md 中——Agent 只读一个文件就够。
+核心用法、快速示例写入 SKILL.md（≤ 100 行），完整参数表、尺寸矩阵、错误码等参考内容拆分到 REFERENCE.md——Agent 按需加载，兼顾效率与完整性。
 
 ---
 

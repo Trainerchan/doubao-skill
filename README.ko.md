@@ -139,12 +139,25 @@ pip install volcengine-python-sdk python-dotenv
 ```
 doubao-skill/
 ├── SKILL.md                      # 부모 스킬: 공통 설정, 서브스킬 라우팅
+├── REFERENCE.md                  # 부모 스킬 참조: 설치, 에이전트 통합, 재시도
 ├── .env.example                  # 환경 변수 템플릿
-├── general/SKILL.md              # 대화 & 멀티모달
-├── generate-image/SKILL.md       # 이미지 생성 (Seedream)
-├── generate-video/SKILL.md       # 비디오 생성 (Seedance)
+├── general/
+│   ├── SKILL.md                  # 대화 & 멀티모달 (코어)
+│   └── REFERENCE.md              # 확장 시나리오, 파라미터표, 오류
+├── generate-image/
+│   ├── SKILL.md                  # 이미지 생성 Seedream (코어)
+│   └── REFERENCE.md              # 스트리밍, 파라미터표, 크기표
+├── generate-video/
+│   ├── SKILL.md                  # 비디오 생성 Seedance (코어)
+│   ├── REFERENCE.md              # 확장 시나리오, 파라미터표, 해상도표
+│   └── scripts/
+│       └── poll_video.py         # 재사용 가능한 폴링 & 다운로드
+├── docs/
+│   └── agents/
 └── CLAUDE.md                     # 프로젝트 개발 가이드
 ```
+
+핵심 사용법과 빠른 예제는 SKILL.md(≤100줄)에, 전체 파라미터표와 오류 참조는 REFERENCE.md로 분리——에이전트가 필요한 만큼 로드, 효율성과 완전성의 균형.
 
 ---
 

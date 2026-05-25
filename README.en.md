@@ -124,10 +124,19 @@ pip install volcengine-python-sdk python-dotenv
 ```
 doubao-skill/
 ├── SKILL.md                  ← Parent: shared config, sub-skill routing
+├── REFERENCE.md              ← Parent ref: installation, agent integration, retry logic
 ├── .env.example              ← Environment variable template
-├── general/SKILL.md          ← Sub: chat & multimodal
-├── generate-image/SKILL.md   ← Sub: image generation (Seedream)
-└── generate-video/SKILL.md   ← Sub: video generation (Seedance)
+├── general/
+│   ├── SKILL.md              ← Sub: chat & multimodal (core usage)
+│   └── REFERENCE.md          ← Extended scenarios, full parameter table, errors
+├── generate-image/
+│   ├── SKILL.md              ← Sub: image generation Seedream (core usage)
+│   └── REFERENCE.md          ← Streaming, full parameter table, size matrix
+└── generate-video/
+    ├── SKILL.md              ← Sub: video generation Seedance (core usage)
+    ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix
+    └── scripts/
+        └── poll_video.py     ← Reusable polling & download script
 ```
 
 ---
@@ -175,19 +184,25 @@ After loading the skill, the agent follows three steps:
 ```
 doubao-skill/
 ├── SKILL.md                      # Parent: shared config, sub-skill routing
+├── REFERENCE.md                  # Parent ref: installation, agent integration, retry logic
 ├── .env.example                  # Environment variable template
 ├── general/
-│   └── SKILL.md                  # Chat & multimodal
+│   ├── SKILL.md                  # Chat & multimodal (core usage)
+│   └── REFERENCE.md              # Extended scenarios, full parameter table, errors
 ├── generate-image/
-│   └── SKILL.md                  # Image generation (Seedream)
+│   ├── SKILL.md                  # Image generation Seedream (core usage)
+│   └── REFERENCE.md              # Streaming, full parameter table, size matrix
 ├── generate-video/
-│   └── SKILL.md                  # Video generation (Seedance)
+│   ├── SKILL.md                  # Video generation Seedance (core usage)
+│   ├── REFERENCE.md              # Extended scenarios, full parameter table, resolution matrix
+│   └── scripts/
+│       └── poll_video.py         # Reusable polling & download script
 ├── docs/
 │   └── agents/                   # Agent configuration (issue tracker, labels, etc.)
 └── CLAUDE.md                     # Project development guide
 ```
 
-All API parameter details, size matrices, and model capability comparisons live directly in the sub-skill SKILL.md files — agents only need to read a single file.
+Core usage and quick examples live in SKILL.md (≤ 100 lines), while full parameter tables, size matrices, and error references are split into REFERENCE.md — agents load what they need, balancing efficiency and completeness.
 
 ---
 
