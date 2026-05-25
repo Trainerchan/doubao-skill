@@ -216,22 +216,3 @@ MIT — 随便用，随便改，随便集成。
 MIT License © [Trainerchan](https://github.com/Trainerchan)
 
 </div>
-
----
-
-## English
-
-**[doubao-skill](https://github.com/Trainerchan/doubao-skill)** wraps the Volcengine Ark (火山方舟) Doubao model APIs into plug-and-play AI Agent skills. Three self-contained sub-skills covering chat/multimodal understanding, image generation (Seedream), and video generation (Seedance).
-
-Not just an API wrapper — each sub-skill is a complete knowledge package. The agent loads it and immediately knows: which endpoint to call, what parameters to pass, how to handle errors, and where to fall back if something changes.
-
-**Install**: `npx skills add Trainerchan/doubao-skill`
-
-**Sub-skills**:
-- `doubao-general` — Chat, vision, document/video/audio understanding, web search, function calling
-- `doubao-generate-image` — Text-to-image, image-to-image, group images (Seedream)
-- `doubao-generate-video` — Text-to-video, image-to-video, multimodal reference (Seedance)
-
-**Config**: Set `ARK_API_KEY` in `.env`, then just talk to your agent.
-
-See the Chinese README above for live examples and full documentation.

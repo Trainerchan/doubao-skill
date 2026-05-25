@@ -31,6 +31,12 @@
       "skillPath": "skills/productivity/handoff/SKILL.md",
       "computedHash": "3fdffd9dce6fc3e9f9f756ba79d694c5f162e11c7e7fbc72a0958f204312e0b1"
     },
+    "huashu-nvwa": {
+      "source": "xmg2024/nvwa-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "3861982ca19655921d69b6d1c85f5718e6a3afc3c7dc3b047850c947ae677f7a"
+    },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
       "sourceType": "github",
