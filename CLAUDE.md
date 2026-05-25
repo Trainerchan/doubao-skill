@@ -8,11 +8,20 @@ This is a Claude Code skill that wraps the Volcengine Ark (火山方舟) Doubao 
 
 ```
 doubao-skill/
-├── SKILL.md               ← Entry point: config, sub-skill routing, quick tests
-├── .env.example           ← Env var template (ARK_API_KEY + model overrides)
-├── general/SKILL.md       ← Chat, vision, document/video/audio understanding, function calling
-├── generate-image/SKILL.md ← Seedream image generation (text-to-image, image-to-image, group images)
-└── generate-video/SKILL.md ← Seedance video generation (async: create task → poll → download)
+├── SKILL.md                  ← Entry point: config, sub-skill routing, quick start
+├── REFERENCE.md              ← Installation, agent integration, retry logic, doc verification
+├── .env.example              ← Env var template (ARK_API_KEY + model overrides)
+├── general/
+│   ├── SKILL.md              ← Core: chat, vision, document understanding, function calling, streaming
+│   └── REFERENCE.md          ← Extended scenarios, full parameter table, error reference
+├── generate-image/
+│   ├── SKILL.md              ← Core: text-to-image, image-to-image, multi-fusion, group images
+│   └── REFERENCE.md          ← Streaming, web search, full parameter table, size matrix
+└── generate-video/
+    ├── SKILL.md              ← Core: async workflow, text-to-video, image-to-video first frame
+    ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix, limits
+    └── scripts/
+        └── poll_video.py     ← Reusable: create task → poll → download MP4
 ```
 
 ## Environment & Configuration
