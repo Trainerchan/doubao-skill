@@ -6,6 +6,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
+[![Hermes Agent](https://img.shields.io/badge/Hermes%20Agent-Skill-orange)](https://github.com/mattpocock/hermes)
+[![OpenClaw](https://img.shields.io/badge/OpenClaw-Compatible-ff69b4)](https://openclaw.ai)
 [![Skills](https://img.shields.io/badge/skills.sh-Compatible-green)](https://skills.sh)
 
 <br>
