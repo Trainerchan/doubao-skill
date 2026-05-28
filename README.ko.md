@@ -141,13 +141,13 @@ doubao-skill/
 ├── SKILL.md                      # 부모 스킬: 공통 설정, 서브스킬 라우팅
 ├── REFERENCE.md                  # 부모 스킬 참조: 설치, 에이전트 통합, 재시도
 ├── .env.example                  # 환경 변수 템플릿
-├── general/
+├── doubao-general/
 │   ├── SKILL.md                  # 대화 & 멀티모달 (코어)
 │   └── REFERENCE.md              # 확장 시나리오, 파라미터표, 오류
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md                  # 이미지 생성 Seedream (코어)
 │   └── REFERENCE.md              # 스트리밍, 파라미터표, 크기표
-├── generate-video/
+├── doubao-generate-video/
 │   ├── SKILL.md                  # 비디오 생성 Seedance (코어)
 │   ├── REFERENCE.md              # 확장 시나리오, 파라미터표, 해상도표
 │   └── scripts/

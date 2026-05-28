@@ -145,13 +145,13 @@ doubao-skill/
 ├── SKILL.md                      # 親スキル：共通設定、サブスキルルーティング
 ├── REFERENCE.md                  # 親スキル参照：インストール、エージェント統合、リトライ
 ├── .env.example                  # 環境変数テンプレート
-├── general/
+├── doubao-general/
 │   ├── SKILL.md                  # 会話 & マルチモーダル（コア）
 │   └── REFERENCE.md              # 拡張シナリオ、パラメータ表、エラー
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md                  # 画像生成 Seedream（コア）
 │   └── REFERENCE.md              # ストリーミング、パラメータ表、サイズ表
-├── generate-video/
+├── doubao-generate-video/
 │   ├── SKILL.md                  # 動画生成 Seedance（コア）
 │   ├── REFERENCE.md              # 拡張シナリオ、パラメータ表、解像度表
 │   └── scripts/

@@ -11,13 +11,13 @@ doubao-skill/
 ├── SKILL.md                  ← Entry point: config, sub-skill routing, quick start
 ├── REFERENCE.md              ← Installation, agent integration, retry logic, doc verification
 ├── .env.example              ← Env var template (ARK_API_KEY + model overrides)
-├── general/
+├── doubao-general/
 │   ├── SKILL.md              ← Core: chat, vision, document understanding, function calling, streaming
 │   └── REFERENCE.md          ← Extended scenarios, full parameter table, error reference
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md              ← Core: text-to-image, image-to-image, multi-fusion, group images
 │   └── REFERENCE.md          ← Streaming, web search, full parameter table, size matrix
-└── generate-video/
+└── doubao-generate-video/
     ├── SKILL.md              ← Core: async workflow, text-to-video, image-to-video first frame
     ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix, limits
     └── scripts/

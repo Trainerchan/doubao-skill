@@ -121,13 +121,13 @@ doubao-skill/
 ├── SKILL.md                  ← 父技能：配置共享、子技能路由
 ├── REFERENCE.md              ← 父技能参考：安装步骤、Agent集成、重试逻辑
 ├── .env.example              ← 环境变量模板
-├── general/
+├── doubao-general/
 │   ├── SKILL.md              ← 子技能：通用对话 & 多模态（核心用法）
 │   └── REFERENCE.md          ← 扩展场景、完整参数表、错误码
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md              ← 子技能：图片生成 Seedream（核心用法）
 │   └── REFERENCE.md          ← 流式组图、完整参数表、尺寸矩阵
-└── generate-video/
+└── doubao-generate-video/
     ├── SKILL.md              ← 子技能：视频生成 Seedance（核心用法）
     ├── REFERENCE.md          ← 扩展场景、完整参数表、分辨率对照
     └── scripts/
@@ -181,13 +181,13 @@ doubao-skill/
 ├── SKILL.md                      # 父技能：配置共享、子技能路由
 ├── REFERENCE.md                  # 父技能参考：安装步骤、Agent集成、重试逻辑
 ├── .env.example                  # 环境变量模板
-├── general/
+├── doubao-general/
 │   ├── SKILL.md                  # 通用对话 & 多模态（核心用法）
 │   └── REFERENCE.md              # 扩展场景、完整参数表、错误码
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md                  # 图片生成 Seedream（核心用法）
 │   └── REFERENCE.md              # 流式组图、完整参数表、尺寸矩阵
-├── generate-video/
+├── doubao-generate-video/
 │   ├── SKILL.md                  # 视频生成 Seedance（核心用法）
 │   ├── REFERENCE.md              # 扩展场景、完整参数表、分辨率对照
 │   └── scripts/

@@ -9,13 +9,13 @@ doubao-skill/
 ├── SKILL.md
 ├── REFERENCE.md
 ├── .env.example
-├── general/
+├── doubao-general/
 │   ├── SKILL.md
 │   └── REFERENCE.md
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md
 │   └── REFERENCE.md
-└── generate-video/
+└── doubao-generate-video/
     ├── SKILL.md
     ├── REFERENCE.md
     └── scripts/

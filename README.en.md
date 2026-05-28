@@ -126,13 +126,13 @@ doubao-skill/
 ├── SKILL.md                  ← Parent: shared config, sub-skill routing
 ├── REFERENCE.md              ← Parent ref: installation, agent integration, retry logic
 ├── .env.example              ← Environment variable template
-├── general/
+├── doubao-general/
 │   ├── SKILL.md              ← Sub: chat & multimodal (core usage)
 │   └── REFERENCE.md          ← Extended scenarios, full parameter table, errors
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md              ← Sub: image generation Seedream (core usage)
 │   └── REFERENCE.md          ← Streaming, full parameter table, size matrix
-└── generate-video/
+└── doubao-generate-video/
     ├── SKILL.md              ← Sub: video generation Seedance (core usage)
     ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix
     └── scripts/
@@ -186,13 +186,13 @@ doubao-skill/
 ├── SKILL.md                      # Parent: shared config, sub-skill routing
 ├── REFERENCE.md                  # Parent ref: installation, agent integration, retry logic
 ├── .env.example                  # Environment variable template
-├── general/
+├── doubao-general/
 │   ├── SKILL.md                  # Chat & multimodal (core usage)
 │   └── REFERENCE.md              # Extended scenarios, full parameter table, errors
-├── generate-image/
+├── doubao-generate-image/
 │   ├── SKILL.md                  # Image generation Seedream (core usage)
 │   └── REFERENCE.md              # Streaming, full parameter table, size matrix
-├── generate-video/
+├── doubao-generate-video/
 │   ├── SKILL.md                  # Video generation Seedance (core usage)
 │   ├── REFERENCE.md              # Extended scenarios, full parameter table, resolution matrix
 │   └── scripts/
