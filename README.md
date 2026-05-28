@@ -114,21 +114,19 @@ pip install volcengine-python-sdk python-dotenv
 
 ### 安装需要复制的文件
 
-> 本仓库其余文件（`CLAUDE.md`、`docs/` 等）为开发档案，无需分发安装。
+> 本仓库其余文件（`CLAUDE.md` 等）为开发档案，无需分发安装。
 
 ```
 doubao-skill/
-├── SKILL.md                  ← 父技能：配置共享、子技能路由
-├── REFERENCE.md              ← 父技能参考：安装步骤、Agent集成、重试逻辑
 ├── .env.example              ← 环境变量模板
 ├── doubao-general/
-│   ├── SKILL.md              ← 子技能：通用对话 & 多模态（核心用法）
+│   ├── SKILL.md              ← 通用对话 & 多模态（核心用法）
 │   └── REFERENCE.md          ← 扩展场景、完整参数表、错误码
 ├── doubao-generate-image/
-│   ├── SKILL.md              ← 子技能：图片生成 Seedream（核心用法）
+│   ├── SKILL.md              ← 图片生成 Seedream（核心用法）
 │   └── REFERENCE.md          ← 流式组图、完整参数表、尺寸矩阵
 └── doubao-generate-video/
-    ├── SKILL.md              ← 子技能：视频生成 Seedance（核心用法）
+    ├── SKILL.md              ← 视频生成 Seedance（核心用法）
     ├── REFERENCE.md          ← 扩展场景、完整参数表、分辨率对照
     └── scripts/
         └── poll_video.py     ← 可复用轮询下载脚本
@@ -163,9 +161,9 @@ doubao-skill/
 
 Agent 加载豆包技能后，按三步完成调用：
 
-**1. 路由匹配**——父 skill 根据用户意图匹配子技能。"分析图片"路由到 doubao-general，"生成海报"路由到 doubao-generate-image，"生成视频"路由到 doubao-generate-video。
+**1. 按需加载**——根据用户意图直接调用对应 skill。"分析图片" → doubao-general，"生成海报" → doubao-generate-image，"生成视频" → doubao-generate-video。三个 skill 各自独立，无需父 skill 路由。
 
-**2. 子技能自执行**——每个子技能是自包含的：前置检查（`.env` → `os.getenv` → 引导配置）、参数速查表、代码示例（cURL + Python）、常见错误及解决方案。Agent 不需要查外部文档。
+**2. 技能自执行**——每个 skill 是自包含的：前置检查（`.env` → `os.getenv` → 引导配置）、参数速查表、代码示例（cURL + Python）、常见错误及解决方案。Agent 不需要查外部文档。
 
 **3. 异常回退**——如果 API 返回 `model not found` 或 `invalid parameter`，Agent 自动：
 - 优先使用文档查询工具（如 Context7 MCP）查最新参数
@@ -178,9 +176,8 @@ Agent 加载豆包技能后，按三步完成调用：
 
 ```
 doubao-skill/
-├── SKILL.md                      # 父技能：配置共享、子技能路由
-├── REFERENCE.md                  # 父技能参考：安装步骤、Agent集成、重试逻辑
 ├── .env.example                  # 环境变量模板
+├── REFERENCE.md                  # 共享参考：安装、配置、重试
 ├── doubao-general/
 │   ├── SKILL.md                  # 通用对话 & 多模态（核心用法）
 │   └── REFERENCE.md              # 扩展场景、完整参数表、错误码
@@ -192,8 +189,6 @@ doubao-skill/
 │   ├── REFERENCE.md              # 扩展场景、完整参数表、分辨率对照
 │   └── scripts/
 │       └── poll_video.py         # 可复用轮询下载脚本
-├── docs/
-│   └── agents/                   # Agent 配置（issue tracker、标签等）
 └── CLAUDE.md                     # 项目开发指引
 ```
 

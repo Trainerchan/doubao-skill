@@ -119,21 +119,19 @@ pip install volcengine-python-sdk python-dotenv
 
 ### Files to Install
 
-> Other files (`CLAUDE.md`, `docs/`, etc.) are development artifacts — do not distribute.
+> Other files (`CLAUDE.md`, etc.) are development artifacts — do not distribute.
 
 ```
 doubao-skill/
-├── SKILL.md                  ← Parent: shared config, sub-skill routing
-├── REFERENCE.md              ← Parent ref: installation, agent integration, retry logic
 ├── .env.example              ← Environment variable template
 ├── doubao-general/
-│   ├── SKILL.md              ← Sub: chat & multimodal (core usage)
+│   ├── SKILL.md              ← Chat & multimodal (core usage)
 │   └── REFERENCE.md          ← Extended scenarios, full parameter table, errors
 ├── doubao-generate-image/
-│   ├── SKILL.md              ← Sub: image generation Seedream (core usage)
+│   ├── SKILL.md              ← Image generation Seedream (core usage)
 │   └── REFERENCE.md          ← Streaming, full parameter table, size matrix
 └── doubao-generate-video/
-    ├── SKILL.md              ← Sub: video generation Seedance (core usage)
+    ├── SKILL.md              ← Video generation Seedance (core usage)
     ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix
     └── scripts/
         └── poll_video.py     ← Reusable polling & download script
@@ -168,9 +166,9 @@ doubao-skill/
 
 After loading the skill, the agent follows three steps:
 
-**1. Route Matching** — The parent skill matches user intent to the right sub-skill. "Analyze this image" → doubao-general, "Generate a poster" → doubao-generate-image, "Create a video" → doubao-generate-video.
+**1. Direct Invocation** — The agent loads the right skill based on user intent. "Analyze this image" → doubao-general, "Generate a poster" → doubao-generate-image, "Create a video" → doubao-generate-video. Each skill is standalone — no parent routing needed.
 
-**2. Self-Executing Sub-skills** — Each sub-skill is self-contained: prerequisite checks (`.env` → `os.getenv` → guided setup), parameter reference tables, code examples (cURL + Python), common errors with solutions. The agent doesn't need external docs.
+**2. Self-Executing Skills** — Each skill is self-contained: prerequisite checks (`.env` → `os.getenv` → guided setup), parameter reference tables, code examples (cURL + Python), common errors with solutions. The agent doesn't need external docs.
 
 **3. Fallback on Error** — If the API returns `model not found` or `invalid parameter`, the agent automatically:
 - First tries a documentation query tool (e.g. Context7 MCP) for latest parameters
@@ -183,9 +181,8 @@ After loading the skill, the agent follows three steps:
 
 ```
 doubao-skill/
-├── SKILL.md                      # Parent: shared config, sub-skill routing
-├── REFERENCE.md                  # Parent ref: installation, agent integration, retry logic
 ├── .env.example                  # Environment variable template
+├── REFERENCE.md                  # Shared reference: installation, configuration, retry logic
 ├── doubao-general/
 │   ├── SKILL.md                  # Chat & multimodal (core usage)
 │   └── REFERENCE.md              # Extended scenarios, full parameter table, errors
@@ -197,8 +194,6 @@ doubao-skill/
 │   ├── REFERENCE.md              # Extended scenarios, full parameter table, resolution matrix
 │   └── scripts/
 │       └── poll_video.py         # Reusable polling & download script
-├── docs/
-│   └── agents/                   # Agent configuration (issue tracker, labels, etc.)
 └── CLAUDE.md                     # Project development guide
 ```
 

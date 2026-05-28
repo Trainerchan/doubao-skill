@@ -1,6 +1,6 @@
 ---
 name: doubao-general
-description: Use when the user asks to analyze images, extract text from PDF/DOCX/XLSX/PPTX documents, transcribe audio, understand video content, perform web search assisted Q&A, implement function calling with 豆包, or chat with 豆包/火山方舟/字节跳动大模型.
+description: Use when the user wants to chat with 豆包/火山方舟/字节跳动大模型, or needs multimodal understanding — analyzing images, extracting text from PDF/DOCX/XLSX/PPTX, transcribing audio, understanding video, implementing function calling, or web search assisted Q&A.
 version: 1.0.0
 metadata:
   tags: [doubao, chat, multimodal, vision, document-understanding, function-calling, volcengine, 文档理解, 图片理解, 视频理解, 音频转写, streaming, tool-call, 联网搜索]
@@ -31,6 +31,19 @@ metadata:
 
 ## 前置条件
 
+```bash
+pip install volcengine-python-sdk python-dotenv
+```
+
+在项目根目录 `.env` 中**追加**（不要覆盖已有内容）：
+
+```env
+ARK_API_KEY=你的APIKey
+DOUBAO_CHAT_MODEL=doubao-seed-2-0-lite-260428  # 可选
+```
+
+> [获取 Key](https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey) | 也可用 `export ARK_API_KEY=xxx`
+
 ```python
 from dotenv import load_dotenv
 load_dotenv()
@@ -38,11 +51,14 @@ load_dotenv()
 import os
 from volcenginesdkarkruntime import Ark
 
-client = Ark(api_key=os.getenv("ARK_API_KEY"))
+client = Ark(
+    api_key=os.getenv("ARK_API_KEY"),
+    base_url="https://ark.cn-beijing.volces.com/api/v3",
+)
 model = os.getenv("DOUBAO_CHAT_MODEL", "doubao-seed-2-0-lite-260428")
 ```
 
-默认模型 `doubao-seed-2-0-lite-260428`（256K 上下文，性价比最优）。复杂推理升级为 `doubao-seed-2-0-pro-260215`，简单任务降级为 `doubao-seed-2-0-mini-260428`。详见 [REFERENCE.md](REFERENCE.md)。
+默认模型 `doubao-seed-2-0-lite-260428`（256K 上下文）。复杂推理 → `doubao-seed-2-0-pro-260215`，简单任务 → `doubao-seed-2-0-mini-260428`。详见 [REFERENCE.md](REFERENCE.md)。
 
 ## 使用场景
 
@@ -97,7 +113,6 @@ response = client.chat.completions.create(
 ```python
 import json
 
-# 定义工具
 tools = [{
     "type": "function",
     "function": {
@@ -111,24 +126,17 @@ tools = [{
     }
 }]
 
-# 第一次调用：模型返回 tool call
 response = client.chat.completions.create(
     model=model,
     messages=[{"role": "user", "content": "北京今天天气怎么样？"}],
     tools=tools,
 )
-msg = response.choices[0].message
 
-# 检查是否有 tool call，执行并回传结果
+msg = response.choices[0].message
 if msg.tool_calls:
     tool_call = msg.tool_calls[0]
-    func_name = tool_call.function.name
     func_args = json.loads(tool_call.function.arguments)
-
-    # 执行实际的函数（示例：返回模拟数据）
     result = {"city": func_args["city"], "weather": "晴", "temperature": 25}
-
-    # 将 tool call 和结果一起回传，获取最终回复
     final_response = client.chat.completions.create(
         model=model,
         messages=[

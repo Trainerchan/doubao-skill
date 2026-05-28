@@ -29,6 +29,19 @@ metadata:
 
 ## 前置条件
 
+```bash
+pip install volcengine-python-sdk python-dotenv
+```
+
+在项目根目录 `.env` 中**追加**（不要覆盖已有内容）：
+
+```env
+ARK_API_KEY=你的APIKey
+DOUBAO_IMAGE_MODEL=doubao-seedream-5-0-260128  # 可选
+```
+
+> [获取 Key](https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey) | 也可用 `export ARK_API_KEY=xxx`
+
 ```python
 from dotenv import load_dotenv
 load_dotenv()
@@ -36,7 +49,10 @@ load_dotenv()
 import os
 from volcenginesdkarkruntime import Ark
 
-client = Ark(api_key=os.getenv("ARK_API_KEY"))
+client = Ark(
+    api_key=os.getenv("ARK_API_KEY"),
+    base_url="https://ark.cn-beijing.volces.com/api/v3",
+)
 model = os.getenv("DOUBAO_IMAGE_MODEL", "doubao-seedream-5-0-260128")
 ```
 

@@ -130,9 +130,9 @@ pip install volcengine-python-sdk python-dotenv
 
 ## 仕組み
 
-**1. ルートマッチング** — 親スキルがユーザーの意図に応じて適切なサブスキルにルーティング。
+**1. 直接呼び出し** — ユーザーの意図に応じて適切なスキルを直接ロード。「画像分析」→ doubao-general、「ポスター生成」→ doubao-generate-image、「動画作成」→ doubao-generate-video。各スキルは独立しており、親スキルによるルーティングは不要。
 
-**2. 自己実行サブスキル** — 各サブスキルは自己完結型：前提チェック、パラメータ参照表、コード例（cURL + Python）、エラー解決策を含む。
+**2. 自己完結型スキル** — 各スキルは自己完結型：前提チェック、パラメータ参照表、コード例（cURL + Python）、エラー解決策を含む。
 
 **3. エラー時のフォールバック** — APIがエラーを返した場合、エージェントは自動的にドキュメントクエリツールまたはWeb取得ツールを使用して最新パラメータを取得し、修正後に再試行。
 
@@ -142,9 +142,8 @@ pip install volcengine-python-sdk python-dotenv
 
 ```
 doubao-skill/
-├── SKILL.md                      # 親スキル：共通設定、サブスキルルーティング
-├── REFERENCE.md                  # 親スキル参照：インストール、エージェント統合、リトライ
 ├── .env.example                  # 環境変数テンプレート
+├── REFERENCE.md                  # 共有参照：インストール、設定、リトライ
 ├── doubao-general/
 │   ├── SKILL.md                  # 会話 & マルチモーダル（コア）
 │   └── REFERENCE.md              # 拡張シナリオ、パラメータ表、エラー
@@ -156,8 +155,6 @@ doubao-skill/
 │   ├── REFERENCE.md              # 拡張シナリオ、パラメータ表、解像度表
 │   └── scripts/
 │       └── poll_video.py         # 再利用可能なポーリング＆ダウンロード
-├── docs/
-│   └── agents/
 └── CLAUDE.md                     # プロジェクト開発ガイド
 ```
 

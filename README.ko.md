@@ -126,9 +126,9 @@ pip install volcengine-python-sdk python-dotenv
 
 ## 작동 방식
 
-**1. 라우트 매칭** — 부모 스킬이 사용자 의도에 따라 적절한 서브스킬로 라우팅.
+**1. 직접 호출** — 사용자 의도에 따라 적절한 스킬을 직접 로드. "이미지 분석" → doubao-general, "포스터 생성" → doubao-generate-image, "비디오 생성" → doubao-generate-video. 각 스킬은 독립적이며, 부모 스킬 라우팅이 필요 없음.
 
-**2. 자체 실행 서브스킬** — 각 서브스킬은 독립적: 전제 조건 확인, 매개변수 참조표, 코드 예제(cURL + Python), 오류 해결책 포함.
+**2. 자체 실행 스킬** — 각 스킬은 독립적: 전제 조건 확인, 매개변수 참조표, 코드 예제(cURL + Python), 오류 해결책 포함.
 
 **3. 오류 시 폴백** — API 오류 발생 시 에이전트가 자동으로 문서 쿼리 도구 또는 웹 가져오기 도구로 최신 매개변수 조회 후 수정 재시도.
 
@@ -138,9 +138,8 @@ pip install volcengine-python-sdk python-dotenv
 
 ```
 doubao-skill/
-├── SKILL.md                      # 부모 스킬: 공통 설정, 서브스킬 라우팅
-├── REFERENCE.md                  # 부모 스킬 참조: 설치, 에이전트 통합, 재시도
 ├── .env.example                  # 환경 변수 템플릿
+├── REFERENCE.md                  # 공유 참조: 설치, 설정, 재시도
 ├── doubao-general/
 │   ├── SKILL.md                  # 대화 & 멀티모달 (코어)
 │   └── REFERENCE.md              # 확장 시나리오, 파라미터표, 오류
@@ -152,8 +151,6 @@ doubao-skill/
 │   ├── REFERENCE.md              # 확장 시나리오, 파라미터표, 해상도표
 │   └── scripts/
 │       └── poll_video.py         # 재사용 가능한 폴링 & 다운로드
-├── docs/
-│   └── agents/
 └── CLAUDE.md                     # 프로젝트 개발 가이드
 ```
 

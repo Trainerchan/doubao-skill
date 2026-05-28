@@ -4,24 +4,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a Claude Code skill that wraps the Volcengine Ark (火山方舟) Doubao model APIs. It provides three sub-skills for different model categories. The entry point is `SKILL.md`; each sub-skill lives in its own directory with its own `SKILL.md`.
+This repo contains three standalone Claude Code skills wrapping Volcengine Ark (火山方舟) Doubao model APIs. Each skill is self-contained and can be installed independently.
 
 ```
 doubao-skill/
-├── SKILL.md                  ← Entry point: config, sub-skill routing, quick start
-├── REFERENCE.md              ← Installation, agent integration, retry logic, doc verification
-├── .env.example              ← Env var template (ARK_API_KEY + model overrides)
 ├── doubao-general/
-│   ├── SKILL.md              ← Core: chat, vision, document understanding, function calling, streaming
+│   ├── SKILL.md              ← Chat, vision, document understanding, function calling, streaming
 │   └── REFERENCE.md          ← Extended scenarios, full parameter table, error reference
 ├── doubao-generate-image/
-│   ├── SKILL.md              ← Core: text-to-image, image-to-image, multi-fusion, group images
+│   ├── SKILL.md              ← Text-to-image, image-to-image, multi-fusion, group images
 │   └── REFERENCE.md          ← Streaming, web search, full parameter table, size matrix
-└── doubao-generate-video/
-    ├── SKILL.md              ← Core: async workflow, text-to-video, image-to-video first frame
-    ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix, limits
-    └── scripts/
-        └── poll_video.py     ← Reusable: create task → poll → download MP4
+├── doubao-generate-video/
+│   ├── SKILL.md              ← Async workflow, text-to-video, image-to-video first frame
+│   ├── REFERENCE.md          ← Extended scenarios, full parameter table, resolution matrix, limits
+│   └── scripts/
+│       └── poll_video.py     ← Reusable: create task → poll → download MP4
+├── REFERENCE.md              ← Installation, agent integration, retry logic, doc verification
+├── CLAUDE.md                 ← This file
+└── .env.example              ← Env var template (ARK_API_KEY + model overrides)
 ```
 
 ## Environment & Configuration
@@ -40,7 +40,7 @@ doubao-skill/
 - **Content-Type**: `application/json`
 - **SDK**: `pip install volcengine-python-sdk` — provides `volcenginesdkarkruntime.Ark` client for all three sub-skills
 
-## Sub-skill Architecture
+## Skill Architecture
 
 ### general — Chat & Multimodal
 
@@ -70,22 +70,16 @@ doubao-skill/
 
 ## When Editing This Skill
 
-- Each sub-skill `SKILL.md` must be self-contained — an agent loading it should have everything needed to make API calls without loading the parent or reference docs
-- The parent `SKILL.md` provides navigation and shared config only; detailed usage belongs in sub-skills
-- All parameter details, size matrices, and event types are included directly in the sub-skill SKILL.md files — no separate reference docs
-- When updating model IDs or defaults, sync across: parent SKILL.md config table, `.env.example`, and the relevant sub-skill SKILL.md
+- Each skill `SKILL.md` must be self-contained — an agent loading it should have everything needed to make API calls without external dependencies
+- When updating model IDs or defaults, sync across: the relevant skill's SKILL.md, `.env.example`, and REFERENCE.md
 - API doc sources: https://www.volcengine.com/docs/82379 (Chat: 1494384, Image: 1541523, Video: 1520757)
 
 ## Agent skills
 
 ### Issue tracker
 
-GitHub issues at https://github.com/Trainerchan/doubao-skill. See `docs/agents/issue-tracker.md`.
+GitHub issues at https://github.com/Trainerchan/doubao-skill.
 
 ### Triage labels
 
-Uses the canonical default labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Single-context layout: `CONTEXT.md` at repo root, `docs/adr/` for architectural decisions. See `docs/agents/domain.md`.
+Uses the canonical default labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`.
